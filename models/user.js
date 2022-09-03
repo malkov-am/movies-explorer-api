@@ -18,8 +18,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: [6, 'Поле "Пароль" должно быть не короче 6 символов'],
-    maxlength: [30, 'Поле "Пароль" должно быть не длинее 30 символов'],
     select: false,
   },
   name: {
