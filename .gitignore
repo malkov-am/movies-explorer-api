@@ -13,7 +13,6 @@
 
 # Prettier config
 .prettierrc
-.editorconfig
 
 # Environment variables
 .env
