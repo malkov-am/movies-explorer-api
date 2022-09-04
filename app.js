@@ -20,6 +20,7 @@ app.use('/signin', login);
 
 // Защищенные маршруты
 app.use('/users', require('./routes/users'));
+app.use('/movies', require('./routes/movies'));
 
 // Неправильный URL
 
