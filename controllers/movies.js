@@ -64,7 +64,7 @@ function deleteMovie(req, res, next) {
       if (movie.owner._id.toString() !== req.user._id) {
         return next(new ForbiddenError({ message: 'Вы не являетесь автором записи о фильме.' }));
       }
-      return Movie.findByIdAndRemove(req.params.cardId).then(() => {
+      return Movie.findByIdAndRemove(req.params.movieId).then(() => {
         res.send({ message: 'Запись о фильме удалёна.' });
       });
     })

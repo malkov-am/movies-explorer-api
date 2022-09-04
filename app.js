@@ -19,6 +19,7 @@ app.use('/signup', createUser);
 app.use('/signin', login);
 
 // Защищенные маршруты
+app.use(require('./middlewares/auth'));
 app.use('/users', require('./routes/users'));
 app.use('/movies', require('./routes/movies'));
 

@@ -5,70 +5,70 @@ const movieSchema = new mongoose.Schema(
   {
     country: {
       type: String,
-      required: [true, 'Не передано поле "Страна"'],
+      required: [true, 'Не передано поле "Страна".'],
     },
     director: {
       type: String,
-      required: [true, 'Не передано поле "Режиссер"'],
+      required: [true, 'Не передано поле "Режиссер".'],
     },
     duration: {
       type: Number,
-      required: [true, 'Не передано поле "Длительность"'],
+      required: [true, 'Не передано поле "Длительность".'],
     },
     year: {
       type: String,
-      required: [true, 'Не передано поле "Год выпуска"'],
+      required: [true, 'Не передано поле "Год выпуска".'],
     },
     description: {
       type: String,
-      required: [true, 'Не передано поле "Описание"'],
+      required: [true, 'Не передано поле "Описание".'],
     },
     image: {
-      type: Number,
+      type: String,
       required: [true, 'Не передано поле "Постер"'],
       validate: {
         validator(link) {
           return validator.isURL(link);
         },
-        message: ({ value }) => `${value} некорректный URL постера`,
+        message: ({ value }) => `${value} некорректный URL постера.`,
       },
     },
     trailerLink: {
-      type: Number,
-      required: [true, 'Не передано поле "Трейлер"'],
+      type: String,
+      required: [true, 'Не передано поле "Трейлер".'],
       validate: {
         validator(link) {
           return validator.isURL(link);
         },
-        message: ({ value }) => `${value} некорректный URL трейлера фильма`,
+        message: ({ value }) => `${value} некорректный URL трейлера фильма.`,
       },
     },
     thumbnail: {
-      type: Number,
-      required: [true, 'Не передано поле "Миниатюрный постер"'],
+      type: String,
+      required: [true, 'Не передано поле "Миниатюрный постер".'],
       validate: {
         validator(link) {
           return validator.isURL(link);
         },
-        message: ({ value }) => `${value} некорректный URL миниатюрного постера`,
+        message: ({ value }) => `${value} некорректный URL миниатюрного постера.`,
       },
     },
     owner: {
       type: mongoose.Types.ObjectId,
-      required: [true, 'Не передано поле "Создатель"'],
+      required: [true, 'Не передано поле "Создатель".'],
       ref: 'user',
     },
     movieId: {
       type: mongoose.Types.ObjectId,
-      required: [true, 'Не передано поле "ID фильма"'],
+      required: [true, 'Не передано поле "ID фильма".'],
     },
     nameRU: {
       type: String,
-      required: [true, 'Не передано поле "Название на русском языке"'],
+      required: [true, 'Не передано поле "Название на русском языке".'],
     },
     nameEN: {
       type: String,
-      required: [true, 'Не передано поле "Название на английском языке"'],
+      required: [true, 'Не передано поле "Название на английском языке".'],
     },
   },
   { versionKey: false },
