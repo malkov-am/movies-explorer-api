@@ -3,10 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const { errors } = require('celebrate');
 const { createUser, login } = require('./controllers/users');
 const { errorHandler } = require('./middlewares/errorHandler');
 const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { validateCreateUser, validateLogin } = require('./middlewares/requestValidation');
 
 const app = express();
 const { DB = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
@@ -21,8 +23,8 @@ app.use(cors());
 app.use(requestLogger);
 
 // Маршруты, не требующие аутентификации
-app.use('/signup', createUser);
-app.use('/signin', login);
+app.use('/signup', validateCreateUser, createUser);
+app.use('/signin', validateLogin, login);
 
 // Защищенные маршруты
 app.use(require('./middlewares/auth'));
@@ -38,10 +40,10 @@ app.use('*', (req, res, next) => {
 app.use(errorLogger);
 
 // Обработчик ошибок celebrate
+app.use(errors());
 
 // Централизованный обработчик ошибок
 app.use(errorHandler);
 
 // Запуск сервера
 app.listen(PORT);
-console.log(`Server is started at port: ${PORT}`);
