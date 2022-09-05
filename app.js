@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
+const rateLimit = require('express-rate-limit');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes/index');
@@ -13,6 +14,8 @@ const { PORT = 3000 } = process.env;
 const { DB = 'mongodb://localhost:27017/moviesdb' } = process.env;
 mongoose.connect(DB);
 
+const limiter = rateLimit();
+
 // Боди-парсер
 app.use(bodyParser.json());
 
@@ -21,6 +24,9 @@ app.use(cors());
 
 // Логгер запросов
 app.use(requestLogger);
+
+// Лимитер запросов
+app.use(limiter);
 
 // Роуты
 app.use('/', routes);
