@@ -53,7 +53,7 @@ function createMovie(req, res, next) {
         );
       }
       return next(err);
-    })
+    });
 }
 // Удаляет сохранённый фильм по id
 function deleteMovie(req, res, next) {
