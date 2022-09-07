@@ -1,5 +1,5 @@
 // Импорты
-const ForbiddenError = require('../../react-mesto-api-full/backend/errors/ForbiddenError');
+const ForbiddenError = require('../errors/ForbiddenError');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const Movie = require('../models/movie');
@@ -7,7 +7,6 @@ const Movie = require('../models/movie');
 // Возвращает все сохранённые текущим  пользователем фильмы
 function getMovies(req, res, next) {
   Movie.find({})
-    .populate('owner')
     .then((cards) => {
       res.send(cards);
     })
@@ -42,6 +41,9 @@ function createMovie(req, res, next) {
     nameEN,
     owner: req.user,
   })
+    .then((movie) => {
+      res.send(movie);
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(
@@ -52,9 +54,6 @@ function createMovie(req, res, next) {
       }
       return next(err);
     })
-    .then((movie) => {
-      movie.populate('owner').then((populatedMovie) => res.send(populatedMovie));
-    });
 }
 // Удаляет сохранённый фильм по id
 function deleteMovie(req, res, next) {

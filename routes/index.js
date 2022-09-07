@@ -16,8 +16,9 @@ router.post('/signup', validateCreateUser, createUser);
 router.post('/signin', validateLogin, login);
 
 // Защищенные маршруты
-router.use('/users', auth, usersRouter);
-router.use('/movies', auth, moviesRouter);
+router.use(auth);
+router.use('/users', usersRouter);
+router.use('/movies', moviesRouter);
 
 // Несуществующий маршрут
 router.use('*', handleMissingRoute);
