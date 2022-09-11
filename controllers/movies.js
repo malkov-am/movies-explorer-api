@@ -48,7 +48,7 @@ function createMovie(req, res, next) {
       if (err.name === 'ValidationError') {
         return next(
           new BadRequestError({
-            message: `Переданы некорректные данные при создании записи о фильме: ${err.message}.`,
+            message: 'Переданы некорректные данные при создании записи о фильме.',
           }),
         );
       }
@@ -71,7 +71,7 @@ function deleteMovie(req, res, next) {
       if (err.name === 'CastError') {
         return next(
           new BadRequestError({
-            message: `Передан некорректный _id фильма: ${err.message}.`,
+            message: 'Передан некорректный _id фильма.',
           }),
         );
       }

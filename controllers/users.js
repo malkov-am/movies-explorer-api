@@ -38,7 +38,7 @@ function updateUserInfo(req, res, next) {
       if (err.name === 'ValidationError') {
         return next(
           new BadRequestError({
-            message: `Переданы некорректные данные при обновлении профиля: ${err.message}.`,
+            message: 'Переданы некорректные данные при обновлении профиля.',
           }),
         );
       }
@@ -75,14 +75,14 @@ function createUser(req, res, next) {
       if (err.code === 11000) {
         return next(
           new ConflictError({
-            message: `Пользователь с таким email уже зарегестрирован: ${err.message}.`,
+            message: 'Пользователь с таким email уже зарегестрирован.',
           }),
         );
       }
       if (err.name === 'ValidationError') {
         return next(
           new BadRequestError({
-            message: `Переданы некорректные данные при регистрации пользователя: ${err.message}.`,
+            message: 'Переданы некорректные данные при регистрации пользователя.',
           }),
         );
       }
