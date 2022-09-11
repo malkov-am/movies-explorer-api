@@ -6,7 +6,7 @@ const Movie = require('../models/movie');
 
 // Возвращает все сохранённые текущим  пользователем фильмы
 function getMovies(req, res, next) {
-  Movie.find({})
+  Movie.find({ owner: req.user._id })
     .then((cards) => {
       res.send(cards);
     })
