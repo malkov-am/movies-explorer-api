@@ -25,7 +25,7 @@ const movieSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: [true, 'Не передано поле "Постер"'],
+      required: [true, 'Не передано поле "Постер".'],
       validate: {
         validator(link) {
           return validator.isURL(link);

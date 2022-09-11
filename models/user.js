@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema(
         validator(email) {
           return validator.isEmail(email);
         },
-        message: ({ value }) => `${value} некорректный адрес электронной почты`,
+        message: ({ value }) => `${value} некорректный адрес электронной почты.`,
       },
     },
     password: {
@@ -24,8 +24,8 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      minlength: [2, 'Поле "Имя" должно быть не короче 2 символов'],
-      maxlength: [30, 'Поле "Имя" должно быть не длинее 30 символов'],
+      minlength: [2, 'Поле "Имя" должно быть не короче 2 символов.'],
+      maxlength: [30, 'Поле "Имя" должно быть не длинее 30 символов.'],
     },
   },
   { versionKey: false },
@@ -36,11 +36,11 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
     .select('+password')
     .then((user) => {
       if (!user) {
-        throw new UnauthorizedError({ message: 'Неправильные email или пароль' });
+        throw new UnauthorizedError({ message: 'Неправильные email или пароль.' });
       }
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          throw new UnauthorizedError({ message: 'Неправильные email или пароль' });
+          throw new UnauthorizedError({ message: 'Неправильные email или пароль.' });
         }
         return user;
       });

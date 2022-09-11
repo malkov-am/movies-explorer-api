@@ -10,23 +10,54 @@ function validateId(id, helper) {
 
 const validateCreateUser = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(6).max(30),
-    name: Joi.string().required().min(2).max(30),
+    email: Joi.string().required().email()
+      .messages({
+        'any.required': 'Поле E-mail обязательно для заполнения.',
+        'string.email': 'Некорректный адрес электронной почты.',
+      }),
+    password: Joi.string().required().min(6).max(30)
+      .messages({
+        'any.required': 'Поле Пароль обязательно для заполнения.',
+        'string.min': 'Поле Пароль не должно быть короче 6 символов.',
+        'string.max': 'Поле Пароль не должно быть длиннее 30 символов.',
+      }),
+    name: Joi.string().required().min(2).max(30)
+      .messages({
+        'any.required': 'Поле Имя обязательно для заполнения.',
+        'string.min': 'Поле Имя не должно быть короче 2 символов.',
+        'string.max': 'Поле Имя не должно быть длиннее 30 символов.',
+      }),
   }),
 });
 
 const validateLogin = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(6).max(30),
+    email: Joi.string().required().email().messages({
+      'any.required': 'Поле E-mail обязательно для заполнения.',
+      'string.email': 'Некорректный адрес электронной почты.',
+    }),
+    password: Joi.string().required().min(6).max(30)
+      .messages({
+        'any.required': 'Поле Пароль обязательно для заполнения.',
+        'string.min': 'Поле Пароль не должно быть короче 6 символов.',
+        'string.max': 'Поле Пароль не должно быть длиннее 30 символов.',
+      }),
   }),
 });
 
 const validateUpdateUserInfo = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    name: Joi.string().required().min(2).max(30),
+    email: Joi.string().required().email()
+      .messages({
+        'any.required': 'Поле E-mail обязательно для заполнения.',
+        'string.email': 'Некорректный адрес электронной почты.',
+      }),
+    name: Joi.string().required().min(2).max(30)
+      .messages({
+        'any.required': 'Поле Имя обязательно для заполнения.',
+        'string.min': 'Поле Имя не должно быть короче 2 символов.',
+        'string.max': 'Поле Имя не должно быть длиннее 30 символов.',
+      }),
   }),
 });
 
@@ -48,7 +79,11 @@ const validateCreateMovie = celebrate({
 
 const validateDeleteMovie = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().required().custom(validateId),
+    movieId: Joi.string().required().custom(validateId)
+      .messages({
+        'any.required': 'Не передан id удаляемого фильма.',
+        'string.custom': 'Некорректный id фильма.',
+      }),
   }),
 });
 
