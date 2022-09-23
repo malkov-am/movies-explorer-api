@@ -8,12 +8,20 @@ function validateId(id, helper) {
   return helper.message('Передан некорретный id.');
 }
 
+// Кастомная валидация email
+function validateEmail(email, helper) {
+  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return email;
+  }
+  return helper.message('Некорректный адрес электронной почты.');
+}
+
 const validateCreateUser = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email()
+    email: Joi.string().required().custom(validateEmail)
       .messages({
         'any.required': 'Поле E-mail обязательно для заполнения.',
-        'string.email': 'Некорректный адрес электронной почты.',
+        'string.custom': 'Некорректный адрес электронной почты.',
       }),
     password: Joi.string().required().min(6).max(30)
       .messages({
@@ -32,10 +40,11 @@ const validateCreateUser = celebrate({
 
 const validateLogin = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email().messages({
-      'any.required': 'Поле E-mail обязательно для заполнения.',
-      'string.email': 'Некорректный адрес электронной почты.',
-    }),
+    email: Joi.string().required().custom(validateEmail)
+      .messages({
+        'any.required': 'Поле E-mail обязательно для заполнения.',
+        'string.custom': 'Некорректный адрес электронной почты.',
+      }),
     password: Joi.string().required().min(6).max(30)
       .messages({
         'any.required': 'Поле Пароль обязательно для заполнения.',
@@ -47,10 +56,10 @@ const validateLogin = celebrate({
 
 const validateUpdateUserInfo = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email()
+    email: Joi.string().required().custom(validateEmail)
       .messages({
         'any.required': 'Поле E-mail обязательно для заполнения.',
-        'string.email': 'Некорректный адрес электронной почты.',
+        'string.custom': 'Некорректный адрес электронной почты.',
       }),
     name: Joi.string().required().min(2).max(30)
       .messages({
@@ -63,27 +72,51 @@ const validateUpdateUserInfo = celebrate({
 
 const validateCreateMovie = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().required(),
-    director: Joi.string().required(),
-    duration: Joi.number().required(),
-    year: Joi.string().required(),
-    description: Joi.string().required(),
-    image: Joi.string().required().uri(),
-    trailerLink: Joi.string().required().uri(),
-    thumbnail: Joi.string().required().uri(),
-    movieId: Joi.number().required(),
-    nameRU: Joi.string().required(),
-    nameEN: Joi.string().required(),
+    country: Joi.string().required().messages({
+      'any.required': 'Не передано поле "Страна".',
+    }),
+    director: Joi.string().required().messages({
+      'any.required': 'Не передано поле "Режиссер".',
+    }),
+    duration: Joi.number().required().messages({
+      'any.required': 'Не передано поле "Длительность".',
+    }),
+    year: Joi.string().required().messages({
+      'any.required': 'Не передано поле "Год производства".',
+    }),
+    description: Joi.string().required().messages({
+      'any.required': 'Не передано поле "Описание".',
+    }),
+    image: Joi.string().required().uri().messages({
+      'any.required': 'Не передано поле "Изображение".',
+      'string.uri': 'Поле "Изображение" не является ссылкой.',
+    }),
+    trailerLink: Joi.string().required().uri().messages({
+      'any.required': 'Не передано поле "Трейлер".',
+      'string.uri': 'Поле "Трейлер" не является ссылкой.',
+    }),
+    thumbnail: Joi.string().required().uri().messages({
+      'any.required': 'Не передано поле "Превью".',
+      'string.uri': 'Поле "Превью" не является ссылкой.',
+    }),
+    movieId: Joi.number().required().messages({
+      'any.required': 'Не передано поле "id".',
+    }),
+    nameRU: Joi.string().required().messages({
+      'any.required': 'Не передано поле "Имя".',
+    }),
+    nameEN: Joi.string().required().messages({
+      'any.required': 'Не передано поле "Name".',
+    }),
   }),
 });
 
 const validateDeleteMovie = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().required().custom(validateId)
-      .messages({
-        'any.required': 'Не передан id удаляемого фильма.',
-        'string.custom': 'Некорректный id фильма.',
-      }),
+    movieId: Joi.string().required().custom(validateId).messages({
+      'any.required': 'Не передан id удаляемого фильма.',
+      'string.custom': 'Некорректный id фильма.',
+    }),
   }),
 });
 
